@@ -15,11 +15,11 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ChildKiller.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
+    <Text Include="License.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="License.txt" />
+    <ClCompile Include="chik.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

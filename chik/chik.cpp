@@ -22,13 +22,13 @@ void printLastError() {
 int main(int argc, char* argv[]) {
 
 	if( argc < 2 ) {
-		wcout << "ChildKiller Version 1" << endl;
+		wcout << "chik Version 1" << endl;
 		wcout << " Author: Thomas AT Klambauer.info" << endl;
 		wcout << " License: GPL Version 3" << endl;
 		wcout << endl;
-		wcout << L"ChildKiller [Command] [Arg1] [Arg2] ..." << endl;
+		wcout << L"chik [Command] [Arg1] [Arg2] ..." << endl;
 		wcout << L"  Windows tool, that executes the given command and arguments via the system" << endl;
-		wcout << L"  function, while ensuring that killing the original ChildKiller process will" << endl;
+		wcout << L"  function, while ensuring that killing the original chik process will" << endl;
 		wcout << L"  also kill all child processes spawned by command." << endl;
 		return 0;
 	}

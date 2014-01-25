@@ -1,7 +1,7 @@
 Description
 ---------------------
 
-ChildKiller is a C++ Windows tool that, when given a command,
+chik (child killer) is a C++ Windows tool that, when given a command,
 executes it by spawning a "cmd" child process and when receiving a TerminateProcess,
 also kills all child processes _recursively_. Otherwise the tool tries to act
 transparent and behave in the same way as the command given.
@@ -20,8 +20,8 @@ to build some java project and gradle spawns multiple child "worker" processes.
 When hitting the terminate button in Eclipse, on linux-systems, gradle and all workers
 are killed recursively, but in Windows, only gradle, but not the workers are killed,
 thus being a major annoyance.
-When now using ChildKiller and passing the gradle command line to it, a terminate from
-Eclipse kills: ChildKiller, the gradle process, and the gradle workers.
+When now using chik and passing the gradle command line to it, a terminate from
+Eclipse kills: chik, the gradle process, and the gradle workers.
 
 Compare the process tree:
 
@@ -36,10 +36,10 @@ Eclipse
 worker1
 worker2
 
-With ChildKiller:
+With chik:
 
 Eclipse
-|-ChildKiller
+|-chik
   |-gradle
     |-worker1
     |-worker2
@@ -52,7 +52,7 @@ Eclipse
 Implementation
 ---------------------
 
-ChildKiller uses the Windows "Jobs" API (see source) to create a job
+chik uses the Windows "Jobs" API (see source) to create a job
 and add itself to it. After this, all newly spawned child processes
 are automatically part of that same job.
 
