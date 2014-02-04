@@ -1,7 +1,7 @@
 Description
 ---------------------
 
-chik (child killer) is a C++ Windows tool that, when given a command,
+chik (child process killer) is a C++ Windows tool that, when given a command,
 executes it by spawning a "cmd" child process and when receiving a TerminateProcess,
 also kills all child processes _recursively_. Otherwise the tool tries to act
 transparent and behave in the same way as the command given.
