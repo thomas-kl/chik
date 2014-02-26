@@ -2,10 +2,11 @@
 // Author: Thomas Klambauer
 // Email: Thomas AT Klambauer.info
 
-#include <stdio.h>
-
 #define WIN32_LEAN_AND_MEAN
-#define _WIN32_WINNT _WIN32_WINNT_WIN7
+// As per docs of CreateJobObject function (available starting with Windows XP)
+#define _WIN32_WINNT 0x0500 
+
+#include <stdio.h>
 
 #include "WinSDKVer.h"
 
@@ -22,7 +23,7 @@ void printLastError() {
 int main(int argc, char* argv[]) {
 
 	if( argc < 2 ) {
-		wcout << "chik Version 1" << endl;
+		wcout << "chik Version 1.0" << endl;
 		wcout << " Author: Thomas AT Klambauer.info" << endl;
 		wcout << " License: GPL Version 3" << endl;
 		wcout << endl;
@@ -70,21 +71,24 @@ int main(int argc, char* argv[]) {
 
 	if( argc > 1 ) {
 		string command;
-		// System also only uses cmd /c to execute the given string.
-		// Add another cmd with /S to ensure that quote-processing behavior
-		// as specified by cmd doc. That behavior is to strip the first quote
-		// character and the last one in the string and leave the rest.
-		// For that, a leading quote is added here... and one at the end.
-		command.append("cmd /S /C \"");
+
 		// Ignore argv[0] (contains this executable's path).
-		for( int i = 1; i < argc; i++) {
-			// Quote all the params to forward them exactly as we received them.
-			command.append("\"");
-			command.append(argv[i]);
-			command.append("\" ");
+		for (int i = 1; i < argc; i++) {
+			string arg(argv[i]);
+
+			// If parameter contains a space, quote the params
+			//  to forward them exactly as we received them.
+			if (arg.find(" ") != string::npos) {
+				arg = "\"" + arg + "\"";
+			}
+			command.append(arg);
+			// Add a space to separate the final args, but no trailing space.
+			if (i != argc - 1) {
+				command.append(" ");
+			}
 		}
-		// This quote is also removed by cmd.
-		command.append("\"");
+
+		// This will cause windows to spawn a "cmd.exe /c" process
 		return system(command.c_str());
 	}
 

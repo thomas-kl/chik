@@ -1,0 +1,17 @@
+Building
+--------------
+
+The accompanying projects and solution files are currently Visual Studio 2013 format.
+
+Conversion to other IDEs should be trivial.
+
+Note that this tool only makes sense on Windows platforms.
+
+Debugging and Testing
+--------------
+
+You can easily create a process tree and the situation that this tool solves using the command prompt, start one prompt and enter:
+
+  start /wait cmd /c pause
+
+This will start a child process command prompt and wait for its termination.That however with "pause" waits for a user key input. When you kill the parent process, the prompt executing the above command is still there (the child process will then be parent-less).

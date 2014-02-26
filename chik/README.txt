@@ -1,4 +1,4 @@
-Description
+1. Description
 ---------------------
 
 chik (child process killer) is a C++ Windows tool that, when given a command,
@@ -12,7 +12,7 @@ tool on Windows and a same-named command-forwarding linux script, one can achiev
 platform-transparent command execution.
 
 
-Example
+2. Example
 ---------------------
 
 As an example take an "external tool" in Eclipse, which spawns a gradle process
@@ -49,15 +49,28 @@ After Terminate:
 Eclipse
 
 
-Implementation
+3. Implementation
 ---------------------
 
-chik uses the Windows "Jobs" API (see source) to create a job
-and add itself to it. After this, all newly spawned child processes
-are automatically part of that same job.
+chik uses the Windows "Jobs" API (see source) to create a job and add itself to it. After this, all newly spawned child processes are automatically part of that same job.
 
-When a parent process in a job is killed, all child processes in that same job
-are also killed, thus implementing the desired behavior.
+When a parent process in a job is killed, all child processes in that same job are also killed, thus implementing the desired behavior.
+
+4. Compatibility
+---------------------
+
+Mentioned Jobs API is available starting with Windows XP, therefore,
+as is, this program will not run on any earlier Windows version.
+
 
 Enjoy!
 Thomas
+
+
+A. Related
+---------------------
+
+Tools like PSKILL (with option -t to kill a process tree), achieve 
+similar behavior, but also killing the parent process.
+
+In comparison, chick allows to auto "pskill -t" on exit of the parent process.
