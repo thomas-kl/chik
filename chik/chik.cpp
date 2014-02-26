@@ -22,7 +22,7 @@ void printLastError() {
 
 int main(int argc, char* argv[]) {
 
-	if( argc < 2 ) {
+	if (argc < 2) {
 		wcout << "chik Version 1.0" << endl;
 		wcout << " Author: Thomas AT Klambauer.info" << endl;
 		wcout << " License: GPL Version 3" << endl;
@@ -35,7 +35,7 @@ int main(int argc, char* argv[]) {
 	}
 
 	HANDLE jobHandle = CreateJobObject(NULL, NULL);
-	if( jobHandle == NULL ) {
+	if (jobHandle == NULL) {
 		wcerr << L"CreateJobObject failed" << endl;
 		printLastError();
 		return 1;
@@ -43,33 +43,33 @@ int main(int argc, char* argv[]) {
 
 	HANDLE thisProcess = GetCurrentProcess();
 
-	if( thisProcess == NULL ) {
+	if (thisProcess == NULL) {
 		wcerr << L"GetCurrentProcess failed" << endl;
 		printLastError();
 		return 1;
 	}
 
-	JOBOBJECT_BASIC_LIMIT_INFORMATION info = {0};
-    info.LimitFlags = JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE;
+	JOBOBJECT_BASIC_LIMIT_INFORMATION info = { 0 };
+	info.LimitFlags = JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE;
 
-    JOBOBJECT_EXTENDED_LIMIT_INFORMATION extendedInfo;
-    extendedInfo.BasicLimitInformation = info;
+	JOBOBJECT_EXTENDED_LIMIT_INFORMATION extendedInfo;
+	extendedInfo.BasicLimitInformation = info;
 
-    int length = sizeof(JOBOBJECT_EXTENDED_LIMIT_INFORMATION);
+	int length = sizeof(JOBOBJECT_EXTENDED_LIMIT_INFORMATION);
 
-    if (!SetInformationJobObject(jobHandle, JobObjectExtendedLimitInformation, &extendedInfo, length)) {
+	if (!SetInformationJobObject(jobHandle, JobObjectExtendedLimitInformation, &extendedInfo, length)) {
 		wcerr << L"SetInformationJobObject failed" << endl;
 		printLastError();
 		return 1;
 	}
 
-	if( AssignProcessToJobObject(jobHandle, thisProcess) == 0 ) {
+	if (AssignProcessToJobObject(jobHandle, thisProcess) == 0) {
 		wcerr << L"AssignProcessToJobObject failed" << endl;
 		printLastError();
 		return 1;
 	}
 
-	if( argc > 1 ) {
+	if (argc > 1) {
 		string command;
 
 		// Ignore argv[0] (contains this executable's path).
