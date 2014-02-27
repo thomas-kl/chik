@@ -73,4 +73,4 @@ A. Related
 Tools like PSKILL (with option -t to kill a process tree), achieve 
 similar behavior, but also killing the parent process.
 
-In comparison, chick allows to auto "pskill -t" on exit of the parent process.
+In comparison, chik allows to auto "pskill -t" on exit of the parent process.
