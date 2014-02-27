@@ -1,0 +1,3 @@
+#!/bin/sh
+# Simply execute the given parameters as if they were entered on the command line, but preserving spaces in parameters.
+"$@"
