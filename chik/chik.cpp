@@ -13,17 +13,25 @@
 #include "Windows.h"
 #include <string>
 #include <iostream>
+#include "WinError.h"
 
 using namespace std;
 
-void printLastError() {
-	wcerr << L"Error: GetLastError= " << GetLastError() << endl;
+DWORD printError(wstring functionName, DWORD error) {
+	wcerr << L"Error from " << functionName << ": GetLastError= " << error << endl;
+	return error;
 }
+
+DWORD printLastError(wstring functionName) {
+	return printError(functionName, GetLastError());
+}
+
+
 
 int main(int argc, char* argv[]) {
 
 	if (argc < 2) {
-		wcout << "chik Version 1.0" << endl;
+		wcout << "chik Version 1.1" << endl;
 		wcout << " Author: Thomas AT Klambauer.info" << endl;
 		wcout << " License: GPL Version 3" << endl;
 		wcout << endl;
@@ -34,19 +42,16 @@ int main(int argc, char* argv[]) {
 		return 0;
 	}
 
+	// Create an unnamed job.
 	HANDLE jobHandle = CreateJobObject(NULL, NULL);
 	if (jobHandle == NULL) {
-		wcerr << L"CreateJobObject failed" << endl;
-		printLastError();
-		return 1;
+		return printLastError(L"CreateJobObject");
 	}
 
 	HANDLE thisProcess = GetCurrentProcess();
 
 	if (thisProcess == NULL) {
-		wcerr << L"GetCurrentProcess failed" << endl;
-		printLastError();
-		return 1;
+		return printLastError(L"GetCurrentProcess");
 	}
 
 	JOBOBJECT_BASIC_LIMIT_INFORMATION info = { 0 };
@@ -58,15 +63,11 @@ int main(int argc, char* argv[]) {
 	int length = sizeof(JOBOBJECT_EXTENDED_LIMIT_INFORMATION);
 
 	if (!SetInformationJobObject(jobHandle, JobObjectExtendedLimitInformation, &extendedInfo, length)) {
-		wcerr << L"SetInformationJobObject failed" << endl;
-		printLastError();
-		return 1;
+		return printLastError(L"SetInformationJobObject");
 	}
 
 	if (AssignProcessToJobObject(jobHandle, thisProcess) == 0) {
-		wcerr << L"AssignProcessToJobObject failed" << endl;
-		printLastError();
-		return 1;
+		return printLastError(L"AssignProcessToJobObject");
 	}
 
 	if (argc > 1) {

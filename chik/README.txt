@@ -1,27 +1,15 @@
 1. Description
 ---------------------
 
-chik (child process killer) is a C++ Windows tool that, when given a command,
-executes it by spawning a "cmd" child process and when receiving a TerminateProcess,
-also kills all child processes _recursively_. Otherwise the tool tries to act
-transparent and behave in the same way as the command given.
+chik (child process killer) is a C++ Windows tool that, when given a command, executes it by spawning a "cmd" child process and when receiving a TerminateProcess, also kills all child processes _recursively_. Otherwise the tool tries to act transparent and behave in the same way as the command given.
 
-This overrides the Windows default behavior of letting child processes live when
-their parent is killed, which is usually the Linux behavior. Thus when using this
-tool on Windows and a same-named command-forwarding linux script, one can achieve
-platform-transparent command execution.
+This overrides the Windows default behavior of letting child processes live when their parent is killed, which is usually the Linux behavior. Thus when using this tool on Windows and a same-named command-forwarding linux script, one can achieve platform-transparent command execution.
 
 
 2. Example
 ---------------------
 
-As an example take an "external tool" in Eclipse, which spawns a gradle process
-to build some java project and gradle spawns multiple child "worker" processes.
-When hitting the terminate button in Eclipse, on linux-systems, gradle and all workers
-are killed recursively, but in Windows, only gradle, but not the workers are killed,
-thus being a major annoyance.
-When now using chik and passing the gradle command line to it, a terminate from
-Eclipse kills: chik, the gradle process, and the gradle workers.
+As an example take an "external tool" in Eclipse, which spawns a gradle process to build some java project and gradle spawns multiple child "worker" processes. When hitting the terminate button in Eclipse, on linux-systems, gradle and all workers are killed recursively, but in Windows, only gradle, but not the workers are killed, thus being a major annoyance. When now using chik and passing the gradle command line to it, a terminate from Eclipse kills: chik, the gradle process, and the gradle workers.
 
 Compare the process tree:
 
@@ -59,8 +47,9 @@ When a parent process in a job is killed, all child processes in that same job a
 4. Compatibility
 ---------------------
 
-Mentioned Jobs API is available starting with Windows XP, therefore,
-as is, this program will not run on any earlier Windows version.
+Mentioned Jobs API is available starting with Windows XP, therefore, as is, this program will not run on any earlier Windows version.
+
+Nested jobs are only available beginning with Windows 8 and Windows Server 2012, which should implement the correct behavior in case that the process calling chik is already part of a Job (for instance IntelliJ IDEA spawns its processes with a Job assigned). 
 
 
 Enjoy!

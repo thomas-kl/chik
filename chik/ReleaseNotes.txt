@@ -1,0 +1,5 @@
+Version 1.1
+---------------
+
+Fixing issue #1 https://github.com/thomas-kl/chik/issues/1
+ - Now linking statically to C and C++ runtimes.
