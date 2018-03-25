@@ -72,9 +72,20 @@ int main(int argc, char* argv[]) {
 
 	if (argc > 1) {
 		string command;
+		int i;
+		int restart_child = 0;
+
+		/* restart child process */
+		if (strcmp(argv[1], "-r") == 0) {
+			i = 2;
+			restart_child = 1;
+		} else {
+			i = 1;
+			restart_child = 0;
+		}
 
 		// Ignore argv[0] (contains this executable's path).
-		for (int i = 1; i < argc; i++) {
+		for (; i < argc; i++) {
 			string arg(argv[i]);
 
 			// If parameter contains a space, quote the params
@@ -90,7 +101,13 @@ int main(int argc, char* argv[]) {
 		}
 
 		// This will cause windows to spawn a "cmd.exe /c" process
-		return system(command.c_str());
+		if (restart_child) {
+			while (1) {
+				system(command.c_str());
+			}
+		} else
+			return system(command.c_str());
+		return 0;
 	}
 
 	return 0;
