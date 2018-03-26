@@ -82,10 +82,13 @@
   <ItemGroup>
     <Text Include="DevNotes.txt" />
     <Text Include="License.txt" />
-    <Text Include="README.txt" />
+    <Text Include="ReleaseNotes.md" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="chik.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="README.md" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

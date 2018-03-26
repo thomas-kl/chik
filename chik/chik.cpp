@@ -1,6 +1,4 @@
 // License: GPL Version 3.0. See License.txt
-// Author: Thomas Klambauer
-// Email: Thomas AT Klambauer.info
 
 #define WIN32_LEAN_AND_MEAN
 // As per docs of CreateJobObject function (available starting with Windows XP)
@@ -26,12 +24,11 @@ DWORD printLastError(wstring functionName) {
 	return printError(functionName, GetLastError());
 }
 
-int main(int argc, char* argv[]) {
+int wmain(int argc, wchar_t* argv[]) {
 
 	// 1st arg contains this executable's path. 2nd is first parameter
 	if (argc < 2) {
-		wcout << L"chik Version 1.1" << endl;
-		wcout << L" Author: Thomas AT Klambauer.info" << endl;
+		wcout << L"chik Version 1.2" << endl;
 		wcout << L" License: GPL Version 3" << endl;
 		wcout << endl;
 		wcout << L"chik [-r] <Command> [Arg1] [Arg2] ..." << endl;
@@ -72,12 +69,12 @@ int main(int argc, char* argv[]) {
 	}
 
 	if (argc > 1) {
-		string command;
+		wstring command;
 		int i = 0;
 		bool restart_child = false;
 
 		/* restart child process */
-		if (strcmp(argv[1], "-r") == 0) {
+		if (wcscmp(argv[1], L"-r") == 0) {
 			i = 2;
 			restart_child = true;
 		} else {
@@ -87,28 +84,28 @@ int main(int argc, char* argv[]) {
 
 		// Ignore argv[0]
 		for (; i < argc; i++) {
-			string arg(argv[i]);
+			wstring arg(argv[i]);
 
 			// If parameter contains a space, quote the params
 			//  to forward them exactly as we received them.
-			if (arg.find(" ") != string::npos) {
-				arg = "\"" + arg + "\"";
+			if (arg.find(L" ") != string::npos) {
+				arg = L"\"" + arg + L"\"";
 			}
 			command.append(arg);
 			// Add a space to separate the final args, but no trailing space.
 			if (i != argc - 1) {
-				command.append(" ");
+				command.append(L" ");
 			}
 		}
 
 		// This will cause windows to spawn a "cmd.exe /c" process
 		if (restart_child) {
 			while (true) {
-				system(command.c_str());
+				_wsystem(command.c_str());
 			}
 		}
 		else {
-			return system(command.c_str());
+			return _wsystem(command.c_str());
 		}
 		return 0;
 	}

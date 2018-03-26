@@ -16,12 +16,15 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="License.txt" />
-    <Text Include="README.txt" />
     <Text Include="DevNotes.txt" />
+    <Text Include="ReleaseNotes.md" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="chik.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="README.md" />
   </ItemGroup>
 </Project>

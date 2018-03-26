@@ -1,9 +1,6 @@
 Building
 --------------
-
-The accompanying projects and solution files are currently Visual Studio 2013 format.
-
-Conversion to other IDEs should be trivial.
+The accompanying projects and solution files are currently Visual Studio 2017 format.
 
 Note that this tool only makes sense on Windows platforms.
 
