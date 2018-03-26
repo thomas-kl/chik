@@ -18,7 +18,7 @@
 using namespace std;
 
 DWORD printError(wstring functionName, DWORD error) {
-	wcerr << L"Error from " << functionName << ": GetLastError= " << error << endl;
+	wcerr << L"Error from " << functionName << L": GetLastError= " << error << endl;
 	return error;
 }
 
@@ -26,19 +26,20 @@ DWORD printLastError(wstring functionName) {
 	return printError(functionName, GetLastError());
 }
 
-
-
 int main(int argc, char* argv[]) {
 
+	// 1st arg contains this executable's path. 2nd is first parameter
 	if (argc < 2) {
-		wcout << "chik Version 1.1" << endl;
-		wcout << " Author: Thomas AT Klambauer.info" << endl;
-		wcout << " License: GPL Version 3" << endl;
+		wcout << L"chik Version 1.1" << endl;
+		wcout << L" Author: Thomas AT Klambauer.info" << endl;
+		wcout << L" License: GPL Version 3" << endl;
 		wcout << endl;
-		wcout << L"chik [Command] [Arg1] [Arg2] ..." << endl;
+		wcout << L"chik [-r] <Command> [Arg1] [Arg2] ..." << endl;
 		wcout << L"  Windows tool, that executes the given command and arguments via the system" << endl;
 		wcout << L"  function, while ensuring that killing the original chik process will" << endl;
 		wcout << L"  also kill all child processes spawned by command." << endl;
+		wcout << endl;
+		wcout << L"   [-r] (Optional) If present, will restart the command after its termination" << endl;
 		return 0;
 	}
 
@@ -72,9 +73,20 @@ int main(int argc, char* argv[]) {
 
 	if (argc > 1) {
 		string command;
+		int i = 0;
+		bool restart_child = false;
 
-		// Ignore argv[0] (contains this executable's path).
-		for (int i = 1; i < argc; i++) {
+		/* restart child process */
+		if (strcmp(argv[1], "-r") == 0) {
+			i = 2;
+			restart_child = true;
+		} else {
+			i = 1;
+			restart_child = false;
+		}
+
+		// Ignore argv[0]
+		for (; i < argc; i++) {
 			string arg(argv[i]);
 
 			// If parameter contains a space, quote the params
@@ -90,7 +102,15 @@ int main(int argc, char* argv[]) {
 		}
 
 		// This will cause windows to spawn a "cmd.exe /c" process
-		return system(command.c_str());
+		if (restart_child) {
+			while (true) {
+				system(command.c_str());
+			}
+		}
+		else {
+			return system(command.c_str());
+		}
+		return 0;
 	}
 
 	return 0;
